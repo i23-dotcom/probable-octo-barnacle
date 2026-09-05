@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Studio — Essence Network</title>
+<link rel="stylesheet" href="styles.css">
+<style>
+.studio{max-width:1400px;margin:auto;padding:36px 6vw 70px}
+.studio-top{display:flex;justify-content:space-between;gap:20px;align-items:flex-end;margin-bottom:28px}
+.studio-grid{display:grid;grid-template-columns:260px 1fr;gap:22px}
+.panel{background:#0c1018;border:1px solid #202735;border-radius:18px;padding:20px}
+.panel h2,.panel h3{margin-top:0}
+.studio-nav{display:grid;gap:8px}
+.studio-nav button{width:100%;text-align:left;background:#111722;border:1px solid #252e3d;color:inherit;border-radius:12px;padding:13px;cursor:pointer}
+.studio-nav button.active{background:#1b2432}
+.stat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:18px}
+.stat{background:#111722;border:1px solid #252e3d;border-radius:14px;padding:16px}
+.stat strong{display:block;font-size:25px;margin-top:6px}
+.toolbar{display:flex;flex-wrap:wrap;gap:10px;margin:14px 0}
+.btnx{border:0;border-radius:10px;padding:11px 15px;cursor:pointer;background:#273244;color:#fff}
+.btnx.primary{background:#fff;color:#080b10}
+.btnx.danger{background:#5d2323}
+.form{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.form label{display:grid;gap:6px;font-size:13px}
+.form input,.form select{width:100%;box-sizing:border-box;background:#080b10;color:#fff;border:1px solid #2a3444;border-radius:9px;padding:11px}
+.form .full{grid-column:1/-1}
+.channel-list{display:grid;gap:10px}
+.channel{display:flex;justify-content:space-between;align-items:center;gap:15px;background:#111722;border:1px solid #252e3d;border-radius:12px;padding:14px}
+.channel small{display:block;opacity:.65;margin-top:4px}
+.status{font-size:12px;padding:5px 8px;border-radius:20px;background:#25301f}
+.status.off{background:#252936}
+.playout{display:grid;grid-template-columns:1.2fr .8fr;gap:18px}
+.now{min-height:260px;border-radius:15px;background:#05070b;display:grid;place-items:center;text-align:center;border:1px solid #202735}
+.queue{display:grid;gap:8px}
+.queue-item{display:grid;grid-template-columns:44px 1fr auto;align-items:center;gap:10px;background:#111722;border:1px solid #252e3d;border-radius:10px;padding:10px}
+.empty{opacity:.6;text-align:center;padding:25px}
+@media(max-width:900px){.studio-grid,.playout{grid-template-columns:1fr}.stat-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:560px){.studio-top{display:block}.form{grid-template-columns:1fr}.stat-grid{grid-template-columns:1fr 1fr}.studio{padding:25px 4vw 50px}}
+</style>
+</head>
+<body>
+<header>
+<a class="brand" href="index.html"><span class="mark">E</span><span><b>essence</b> network<small>WHERE ESSENCE MEETS EXPRESSION</small></span></a>
+<button class="menu">☰</button>
+<nav>
+<a href="index.html">Home</a><a href="live.html">Live TV</a><a href="guide.html">TV Guide</a><a href="programmes.html">Programmes</a><a href="news.html">News</a><a href="watch.html">Watch</a><a href="about.html">About</a><a href="contact.html">Contact</a>
+<a class="active" href="studio.html">Studio</a>
+</nav>
+<a class="live" href="live.html">● WATCH LIVE</a>
+</header>
+
+<main class="studio">
+<div class="studio-top">
+<div><p class="eyebrow">BROADCAST CONTROL ROOM</p><h1>Essence Studio</h1><p>Manage channels, content and browser-based playout.</p></div>
+<div><span id="stationStatus" class="status off">STATION OFF AIR</span></div>
+</div>
+
+<div class="studio-grid">
+<aside class="panel">
+<h3>Studio</h3>
+<div class="studio-nav">
+<button class="active" data-view="dashboard">Dashboard</button>
+<button data-view="channels">Channels</button>
+<button data-view="content">Content</button>
+<button data-view="playout">Playout</button>
+<button data-view="schedule">Schedule</button>
+</div>
+</aside>
+
+<section>
+<div id="dashboard" class="view">
+<div class="stat-grid">
+<div class="stat">Channels<strong id="statChannels">0</strong></div>
+<div class="stat">Media<strong id="statMedia">0</strong></div>
+<div class="stat">On Air<strong id="statOnAir">0</strong></div>
+<div class="stat">Queue<strong id="statQueue">0</strong></div>
+</div>
+<div class="panel"><h2>Station overview</h2><p id="dashboardText">Create a channel to begin building your station.</p>
+<div class="toolbar"><button class="btnx primary" data-go="channels">Create Channel</button><button class="btnx" data-go="playout">Open Playout</button></div></div>
+</div>
+
+<div id="channels" class="view" hidden>
+<div class="panel"><h2>Channels</h2>
+<form id="channelForm" class="form">
+<label>Channel name<input id="channelName" required placeholder="Essence TV"></label>
+<label>Channel number<input id="channelNumber" type="number" min="1" required placeholder="1"></label>
+<label>Logo URL<input id="channelLogo" placeholder="https://..."></label>
+<label>Category<select id="channelCategory"><option>General</option><option>News</option><option>Entertainment</option><option>Music</option><option>Movies</option><option>Sports</option></select></label>
+<div class="full"><button class="btnx primary" type="submit">+ Create Channel</button></div>
+</form>
+<hr style="border-color:#202735;margin:22px 0">
+<div id="channelList" class="channel-list"></div>
+</div>
+</div>
+
+<div id="content" class="view" hidden>
+<div class="panel"><h2>Content Library</h2>
+<form id="mediaForm" class="form">
+<label>Title<input id="mediaTitle" required placeholder="Programme 01"></label>
+<label>Type<select id="mediaType"><option value="video">Video</option><option value="hls">HLS / M3U8</option><option value="audio">Audio</option></select></label>
+<label class="full">Source URL<input id="mediaUrl" placeholder="https://example.com/video.mp4"></label>
+<div class="full"><button class="btnx primary" type="submit">+ Add Content</button></div>
+</form>
+<hr style="border-color:#202735;margin:22px 0">
+<div id="mediaList" class="channel-list"></div>
+</div>
+</div>
+
+<div id="playout" class="view" hidden>
+<div class="panel"><h2>Playout</h2>
+<div class="toolbar"><select id="playoutChannel" style="background:#080b10;color:#fff;border:1px solid #2a3444;border-radius:9px;padding:10px"></select>
+<button id="startBtn" class="btnx primary">▶ Start Channel</button><button id="stopBtn" class="btnx danger">■ Stop</button></div>
+<div class="playout">
+<div class="now"><div><div id="nowTitle">Nothing playing</div><small id="nowMeta">Select a channel and add media to its queue.</small></div></div>
+<div><h3>Queue</h3><div id="queue" class="queue"></div></div>
+</div>
+</div>
+</div>
+
+<div id="schedule" class="view" hidden>
+<div class="panel"><h2>Schedule</h2><p>Schedule support is prepared for the next backend phase. The current Studio stores channels, media and playout state locally so the interface can be tested immediately.</p></div>
+</div>
+</section>
+</div>
+</main>
+
+<footer><div class="footer-brand">essence network</div><div>WHERE ESSENCE MEETS EXPRESSION · © 2026</div></footer>
+<script src="app.js"></script>
+<script src="studio.js"></script>
+</body></html>
