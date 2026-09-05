@@ -26,3 +26,7 @@ This Studio is the control plane. Reliable 24/7 broadcasting still requires a se
 - Real EPG/scheduling
 - Public channel feeds
 - Authentication and analytics
+
+
+## Phase 8
+Automatic schedule worker and Now Playing / Next Up guide API are included. See `PHASE_8_AUTOMATIC_SCHEDULER.md`.
